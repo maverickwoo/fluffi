@@ -59,7 +59,7 @@
       "datasource": "FLUFFI",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 10,
         "x": 0,
         "y": 0
@@ -227,7 +227,7 @@
       "datasource": "FLUFFI",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 10,
         "x": 10,
         "y": 0
@@ -363,7 +363,7 @@
       "dashboardTags": [],
       "folderId": null,
       "gridPos": {
-        "h": 15,
+        "h": 16,
         "w": 4,
         "x": 20,
         "y": 0
@@ -424,7 +424,7 @@
         "h": 8,
         "w": 10,
         "x": 0,
-        "y": 7
+        "y": 8
       },
       "id": 14,
       "legend": {
@@ -592,7 +592,7 @@
         "h": 8,
         "w": 10,
         "x": 10,
-        "y": 7
+        "y": 8
       },
       "id": 2,
       "legend": {
@@ -757,10 +757,10 @@
       "datasource": "FLUFFI",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 13,
         "x": 0,
-        "y": 15
+        "y": 16
       },
       "id": 18,
       "legend": {
@@ -925,10 +925,10 @@
       "datasource": "FLUFFI",
       "fill": 1,
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 11,
         "x": 13,
-        "y": 15
+        "y": 16
       },
       "id": 20,
       "legend": {
@@ -1092,5 +1092,5 @@
   "timezone": "",
   "title": "FLUFFI 1",
   "uid": "MAzsmLaik",
-  "version": 101874
+  "version": 101875
 }
