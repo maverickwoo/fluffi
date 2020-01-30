@@ -12,10 +12,10 @@
 # example call: sudo ./prepare.sh DOPTS=--no-cache
 
 # Make sure only root can run our script
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root." 1>&2
-   exit 1
-fi
+#if [ "$(id -u)" != "0" ]; then
+#   echo "This script must be run as root." 1>&2
+#   exit 1
+#fi
 
 # Parse options
 DOPTS=
@@ -35,8 +35,8 @@ done
 
 
 # Installing qemu binfmt so that we can run arm dockerfiles
-apt-get install -y --no-install-recommends qemu-user-static binfmt-support
-update-binfmts --enable qemu-arm
+sudo apt-get install -y --no-install-recommends qemu-user-static binfmt-support
+sudo update-binfmts --enable qemu-arm
 
 cp $(which qemu-arm-static) .
 cp $(which qemu-aarch64-static) .
