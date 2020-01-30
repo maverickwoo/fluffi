@@ -26,10 +26,10 @@
 [ "$JENKINS_DEBUG" == 'true' ] && set -x
 
 # Make sure only root can run our script
-if [ "$(id -u)" != "0" ]; then
-	echo "As this script uses docker, it must be run as root." 1>&2
-	exit 1
-fi
+# if [ "$(id -u)" != "0" ]; then
+# 	echo "As this script uses docker, it must be run as root." 1>&2
+# 	exit 1
+# fi
 
 PREPARE_ENV=
 WITH_DEPS=
@@ -62,6 +62,7 @@ if [ "$PREPARE_ENV" = TRUE ] ; then
 	fi
 fi
 
+# Suggestion: use `id -nu` and `id -ng`
 USER=$(logname)
 GROUP=$(groups $USER | awk '{print $3}')
 USERID=$(id $USER -u)
