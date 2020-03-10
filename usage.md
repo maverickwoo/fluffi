@@ -27,8 +27,8 @@ All FuzzJobs are run on dedicated Runner systems in the FLUFFI Utility Network (
     * `net use y: /Delete /yes`
   * Linux:
     * `smbclient '//smb.fluffi/install' -c 'cd initial; get MAC2Host.csv; get initialConfiguration.sh' -U anonymous%pass;`
-    * `chmod 777 /initialConfiguration.sh`
-    * `/bin/bash /initialConfiguration.sh`
+    * `chmod 777 /initialConfiguration.sh` # bug: path is wrong: it is the current dir; Also, why 777 if we run this with bash?
+    * `/bin/bash /initialConfiguration.sh` # bug: `apt-get install -yq network-manager` after taking off external dns
     * `rm MAC2Host.csv`
     * `rm initialConfiguration.sh`
 * Finally, you need to tell FLUFFI about the system. To do so you have two options: either add it to ansible's [hosts](srv/fluffi/data/polenext/projects/1/hosts) file, or use the `Add System` button in FLUFFI's web GUI.
