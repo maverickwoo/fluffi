@@ -1,0 +1,380 @@
+cmake_minimum_required(VERSION 3.15)
+project(fluffi)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(core/dependencies/afl)
+include_directories(core/dependencies/afl/include)
+include_directories(core/dependencies/big-list-of-naughty-strings)
+include_directories(core/dependencies/big-list-of-naughty-strings/include)
+include_directories(core/FluffiTester)
+include_directories(core/FluffiTester/testApplications/src/ConsoleReflector)
+include_directories(core/FluffiTester/testApplications/src/DebuggerTester)
+include_directories(core/FluffiTester/testApplications/src/DebuggerTesterTCP)
+include_directories(core/FluffiTester/testApplications/src/ExternalProcessTester)
+include_directories(core/FluffiTester/testApplications/src/InstrumentedTarget)
+include_directories(core/FluffiTester/testApplications/src/ReportingCrashSharedMemFeeder)
+include_directories(core/GlobalManager)
+include_directories(core/helpers/Feeder/EthernetFeeder)
+include_directories(core/helpers/Feeder/SharedMemFeeder)
+include_directories(core/helpers/Feeder/sslwrap)
+include_directories(core/helpers/Feeder/TCPFeeder)
+include_directories(core/helpers/Feeder/Tester)
+include_directories(core/helpers/Feeder/UDPFeeder)
+include_directories(core/helpers/fuzzcmp)
+include_directories(core/helpers/kfuzz/GDBEmulator)
+include_directories(core/helpers/kfuzz/kfuzz-windbg)
+include_directories(core/helpers/Starter/GDBStarter)
+include_directories(core/helpers/Starter/kFuzzStarter)
+include_directories(core/helpers/Starter/ProcessStarter)
+include_directories(core/helpers/Starter/ServiceStarter)
+include_directories(core/LocalManager)
+include_directories(core/SharedCode)
+include_directories(core/SharedMemIPC)
+include_directories(core/TestcaseEvaluator)
+include_directories(core/TestcaseGenerator)
+include_directories(core/TestcaseRunner)
+
+add_executable(fluffi
+               agents/monitoring_client/linux/fluffmonplugins/plugin_sample.c
+               core/dependencies/afl/include/afl-fuzz.h
+               core/dependencies/big-list-of-naughty-strings/include/blns.h
+               core/dependencies/dynamorio/drcovMulti/drcovMulti.c
+               core/FluffiTester/testApplications/src/ConsoleReflector/ConsoleReflector.cpp
+               core/FluffiTester/testApplications/src/ConsoleReflector/stdafx.cpp
+               core/FluffiTester/testApplications/src/ConsoleReflector/stdafx.h
+               core/FluffiTester/testApplications/src/ConsoleReflector/targetver.h
+               core/FluffiTester/testApplications/src/DebuggerTester/DebuggerTester.cpp
+               core/FluffiTester/testApplications/src/DebuggerTester/stdafx.cpp
+               core/FluffiTester/testApplications/src/DebuggerTester/stdafx.h
+               core/FluffiTester/testApplications/src/DebuggerTester/targetver.h
+               core/FluffiTester/testApplications/src/DebuggerTesterTCP/DebuggerTesterTCP.cpp
+               core/FluffiTester/testApplications/src/DebuggerTesterTCP/stdafx.cpp
+               core/FluffiTester/testApplications/src/DebuggerTesterTCP/stdafx.h
+               core/FluffiTester/testApplications/src/DebuggerTesterTCP/targetver.h
+               core/FluffiTester/testApplications/src/ExternalProcessTester/ExternalProcessTester.cpp
+               core/FluffiTester/testApplications/src/ExternalProcessTester/stdafx.cpp
+               core/FluffiTester/testApplications/src/ExternalProcessTester/stdafx.h
+               core/FluffiTester/testApplications/src/ExternalProcessTester/targetver.h
+               core/FluffiTester/testApplications/src/InstrumentedTarget/InstrumentedDebuggerTester.cpp
+               core/FluffiTester/testApplications/src/InstrumentedTarget/stdafx.cpp
+               core/FluffiTester/testApplications/src/InstrumentedTarget/stdafx.h
+               core/FluffiTester/testApplications/src/InstrumentedTarget/targetver.h
+               core/FluffiTester/testApplications/src/linux/fluffiTester/fluffiTester.cpp
+               core/FluffiTester/testApplications/src/linux/fluffiTester/fluffiTesterSMIPC.cpp
+               core/FluffiTester/testApplications/src/linux/DebuggerTester.cpp
+               core/FluffiTester/testApplications/src/linux/DebuggerTester2.cpp
+               core/FluffiTester/testApplications/src/linux/EPTester.c
+               core/FluffiTester/testApplications/src/ReportingCrashSharedMemFeeder/ReportingCrashSharedMemFeeder.cpp
+               core/FluffiTester/testApplications/src/ReportingCrashSharedMemFeeder/stdafx.cpp
+               core/FluffiTester/testApplications/src/ReportingCrashSharedMemFeeder/stdafx.h
+               core/FluffiTester/testApplications/src/ReportingCrashSharedMemFeeder/targetver.h
+               core/FluffiTester/AbstractionLayerTester.cpp
+               core/FluffiTester/AFLMutatorTester.cpp
+               core/FluffiTester/BlockCoverageCacheTester.cpp
+               core/FluffiTester/CommIntTester.cpp
+               core/FluffiTester/CommPartnerManagerTester.cpp
+               core/FluffiTester/ExternalMutatorTester.cpp
+               core/FluffiTester/ExternalProcessTester.cpp
+               core/FluffiTester/FLUFFILogTester.cpp
+               core/FluffiTester/GarbageCollectorWorkerTester.cpp
+               core/FluffiTester/GetStatusRequestHandlerTester.cpp
+               core/FluffiTester/GMDatabaseManagerTester.cpp
+               core/FluffiTester/GMWorkerThreadStateBuilderTester.cpp
+               core/FluffiTester/HonggfuzzMutatorTester.cpp
+               core/FluffiTester/LMDatabaseManagerTester.cpp
+               core/FluffiTester/LMWorkerThreadStateBuilderTester.cpp
+               core/FluffiTester/RadamsaMutatorTester.cpp
+               core/FluffiTester/RegisterAtLMRequestHandlerTester.cpp
+               core/FluffiTester/SharedMemIPCTester.cpp
+               core/FluffiTester/stdafx.cpp
+               core/FluffiTester/stdafx.h
+               core/FluffiTester/targetver.h
+               core/FluffiTester/TestExecutorDynRioMultiTester.cpp
+               core/FluffiTester/TestExecutorDynRioSingleTester.cpp
+               core/FluffiTester/TestExecutorGDBTester.cpp
+               core/FluffiTester/TETestResultManagerTester.cpp
+               core/FluffiTester/TEWorkerThreadStateBuilderTester.cpp
+               core/FluffiTester/TGTestcaseManagerTester.cpp
+               core/FluffiTester/TGWorkerThreadStateBuilderTester.cpp
+               core/FluffiTester/TRWorkerThreadStateBuilderTester.cpp
+               core/FluffiTester/utilTester.cpp
+               core/FluffiTester/WorkerWeightCalculatorTester.cpp
+               core/GlobalManager/GlobalManager.cpp
+               core/GlobalManager/GMDatabaseManager.cpp
+               core/GlobalManager/GMDatabaseManager.h
+               core/GlobalManager/GMWorkerThreadState.h
+               core/GlobalManager/GMWorkerThreadStateBuilder.cpp
+               core/GlobalManager/GMWorkerThreadStateBuilder.h
+               core/GlobalManager/LMMonitorWorker.cpp
+               core/GlobalManager/LMMonitorWorker.h
+               core/GlobalManager/RegisterAtGMRequestHandler.cpp
+               core/GlobalManager/RegisterAtGMRequestHandler.h
+               core/GlobalManager/stdafx.cpp
+               core/GlobalManager/stdafx.h
+               core/GlobalManager/targetver.h
+               core/helpers/Feeder/cgicaller/cgicaller.c
+               core/helpers/Feeder/EthernetFeeder/EthernetFeeder.cpp
+               core/helpers/Feeder/EthernetFeeder/stdafx.cpp
+               core/helpers/Feeder/EthernetFeeder/stdafx.h
+               core/helpers/Feeder/EthernetFeeder/targetver.h
+               core/helpers/Feeder/SharedMemFeeder/Stub/SharedMemStub.cpp
+               core/helpers/Feeder/SharedMemFeeder/SharedMemFeeder.cpp
+               core/helpers/Feeder/SharedMemFeeder/stdafx.cpp
+               core/helpers/Feeder/SharedMemFeeder/stdafx.h
+               core/helpers/Feeder/SharedMemFeeder/targetver.h
+               core/helpers/Feeder/sslwrap/dllmain.cpp
+               core/helpers/Feeder/sslwrap/sslwrap.cpp
+               core/helpers/Feeder/sslwrap/sslwrap.h
+               core/helpers/Feeder/sslwrap/stdafx.cpp
+               core/helpers/Feeder/sslwrap/stdafx.h
+               core/helpers/Feeder/sslwrap/targetver.h
+               core/helpers/Feeder/TCPFeeder/http.cpp
+               core/helpers/Feeder/TCPFeeder/http.h
+               core/helpers/Feeder/TCPFeeder/stdafx.cpp
+               core/helpers/Feeder/TCPFeeder/stdafx.h
+               core/helpers/Feeder/TCPFeeder/targetver.h
+               core/helpers/Feeder/TCPFeeder/TCPFeeder.cpp
+               core/helpers/Feeder/TCPFeeder/utils.cpp
+               core/helpers/Feeder/TCPFeeder/utils.h
+               core/helpers/Feeder/Tester/stdafx.cpp
+               core/helpers/Feeder/Tester/stdafx.h
+               core/helpers/Feeder/Tester/targetver.h
+               core/helpers/Feeder/Tester/Tester.cpp
+               core/helpers/Feeder/UDPFeeder/stdafx.cpp
+               core/helpers/Feeder/UDPFeeder/stdafx.h
+               core/helpers/Feeder/UDPFeeder/targetver.h
+               core/helpers/Feeder/UDPFeeder/UDPFeeder.cpp
+               core/helpers/fuzzcmp/dllmain.cpp
+               core/helpers/fuzzcmp/fuzzcmp.cpp
+               core/helpers/fuzzcmp/fuzzcmp.h
+               core/helpers/fuzzcmp/memcmp.h
+               core/helpers/fuzzcmp/stdafx.cpp
+               core/helpers/fuzzcmp/stdafx.h
+               core/helpers/fuzzcmp/strcmp.h
+               core/helpers/fuzzcmp/targetver.h
+               core/helpers/fuzzcmp/trampoline.h
+               core/helpers/kfuzz/GDBEmulator/GDBEmulator.cpp
+               core/helpers/kfuzz/GDBEmulator/GDBEmulator.h
+               core/helpers/kfuzz/GDBEmulator/stdafx.cpp
+               core/helpers/kfuzz/GDBEmulator/stdafx.h
+               core/helpers/kfuzz/kfuzz-windbg/ExtensionProvider.cpp
+               core/helpers/kfuzz/kfuzz-windbg/ExtensionProvider.h
+               core/helpers/kfuzz/kfuzz-windbg/kfuzz-windbg.cpp
+               core/helpers/kfuzz/kfuzz-windbg/kfuzz-windbg.h
+               core/helpers/kfuzz/kfuzz-windbg/KfuzzEventCallback.cpp
+               core/helpers/kfuzz/kfuzz-windbg/KfuzzEventCallback.h
+               core/helpers/kfuzz/kfuzz-windbg/KfuzzExtension.cpp
+               core/helpers/kfuzz/kfuzz-windbg/KfuzzExtension.h
+               core/helpers/kfuzz/kfuzz-windbg/KfuzzProvider.cpp
+               core/helpers/kfuzz/kfuzz-windbg/KfuzzProvider.h
+               core/helpers/kfuzz/kfuzz-windbg/stdafx.cpp
+               core/helpers/kfuzz/kfuzz-windbg/stdafx.h
+               core/helpers/Starter/GDBStarter/GDBStarter.cpp
+               core/helpers/Starter/GDBStarter/stdafx.cpp
+               core/helpers/Starter/GDBStarter/stdafx.h
+               core/helpers/Starter/GDBStarter/targetver.h
+               core/helpers/Starter/kFuzzStarter/kFuzzStarter.cpp
+               core/helpers/Starter/kFuzzStarter/stdafx.cpp
+               core/helpers/Starter/kFuzzStarter/stdafx.h
+               core/helpers/Starter/kFuzzStarter/targetver.h
+               core/helpers/Starter/ProcessStarter/ProcessStarter.cpp
+               core/helpers/Starter/ProcessStarter/stdafx.cpp
+               core/helpers/Starter/ProcessStarter/stdafx.h
+               core/helpers/Starter/ProcessStarter/targetver.h
+               core/helpers/Starter/ServiceStarter/ServiceStarter.cpp
+               core/helpers/Starter/ServiceStarter/stdafx.cpp
+               core/helpers/Starter/ServiceStarter/stdafx.h
+               core/helpers/Starter/ServiceStarter/targetver.h
+               core/LocalManager/DBCleanupWorker.cpp
+               core/LocalManager/DBCleanupWorker.h
+               core/LocalManager/GetCurrentBlockCoverageRequestHandler.cpp
+               core/LocalManager/GetCurrentBlockCoverageRequestHandler.h
+               core/LocalManager/GetFuzzJobConfigurationRequestHandler.cpp
+               core/LocalManager/GetFuzzJobConfigurationRequestHandler.h
+               core/LocalManager/GetLMConfigurationRequestHandler.cpp
+               core/LocalManager/GetLMConfigurationRequestHandler.h
+               core/LocalManager/GetNewCompletedTestcaseIDsRequestHandler.cpp
+               core/LocalManager/GetNewCompletedTestcaseIDsRequestHandler.h
+               core/LocalManager/GetTestcaseToMutateRequestHandler.cpp
+               core/LocalManager/GetTestcaseToMutateRequestHandler.h
+               core/LocalManager/InstanceControlWorker.cpp
+               core/LocalManager/InstanceControlWorker.h
+               core/LocalManager/InstanceMonitorWorker.cpp
+               core/LocalManager/InstanceMonitorWorker.h
+               core/LocalManager/IsAgentWelcomedRequestHandler.cpp
+               core/LocalManager/IsAgentWelcomedRequestHandler.h
+               core/LocalManager/LMDatabaseManager.cpp
+               core/LocalManager/LMDatabaseManager.h
+               core/LocalManager/LMGetStatusRequestHandler.cpp
+               core/LocalManager/LMGetStatusRequestHandler.h
+               core/LocalManager/LMWorkerThreadState.h
+               core/LocalManager/LMWorkerThreadStateBuilder.cpp
+               core/LocalManager/LMWorkerThreadStateBuilder.h
+               core/LocalManager/LocalManager.cpp
+               core/LocalManager/PutTestEvaluationRequestHandler.cpp
+               core/LocalManager/PutTestEvaluationRequestHandler.h
+               core/LocalManager/RegisterAtLMRequestHandler.cpp
+               core/LocalManager/RegisterAtLMRequestHandler.h
+               core/LocalManager/ReportNewMutationsRequestHandler.cpp
+               core/LocalManager/ReportNewMutationsRequestHandler.h
+               core/LocalManager/ReportTestcaseWithNoResultRequestHandler.cpp
+               core/LocalManager/ReportTestcaseWithNoResultRequestHandler.h
+               core/LocalManager/StatusOfInstance.h
+               core/LocalManager/stdafx.cpp
+               core/LocalManager/stdafx.h
+               core/LocalManager/targetver.h
+               core/LocalManager/WorkerWeightCalculator.cpp
+               core/LocalManager/WorkerWeightCalculator.h
+               core/SharedCode/CommInt.cpp
+               core/SharedCode/CommInt.h
+               core/SharedCode/CommProxyWorker.cpp
+               core/SharedCode/CommProxyWorker.h
+               core/SharedCode/CommWorker.cpp
+               core/SharedCode/CommWorker.h
+               core/SharedCode/DebugExecutionOutput.cpp
+               core/SharedCode/DebugExecutionOutput.h
+               core/SharedCode/ExternalProcess.cpp
+               core/SharedCode/ExternalProcess.h
+               core/SharedCode/FluffiBasicBlock.cpp
+               core/SharedCode/FluffiBasicBlock.h
+               core/SharedCode/FluffiLMConfiguration.cpp
+               core/SharedCode/FluffiLMConfiguration.h
+               core/SharedCode/FLUFFILogHandler.cpp
+               core/SharedCode/FLUFFILogHandler.h
+               core/SharedCode/FluffiModuleNameToID.cpp
+               core/SharedCode/FluffiModuleNameToID.h
+               core/SharedCode/FluffiServiceAndWeight.cpp
+               core/SharedCode/FluffiServiceAndWeight.h
+               core/SharedCode/FluffiServiceDescriptor.cpp
+               core/SharedCode/FluffiServiceDescriptor.h
+               core/SharedCode/FluffiSetting.cpp
+               core/SharedCode/FluffiSetting.h
+               core/SharedCode/FluffiTestcaseID.cpp
+               core/SharedCode/FluffiTestcaseID.h
+               core/SharedCode/FluffiTestResult.cpp
+               core/SharedCode/FluffiTestResult.h
+               core/SharedCode/GarbageCollectorWorker.cpp
+               core/SharedCode/GarbageCollectorWorker.h
+               core/SharedCode/GetStatusRequestHandler.cpp
+               core/SharedCode/GetStatusRequestHandler.h
+               core/SharedCode/GetTestcaseChunkRequestHandler.cpp
+               core/SharedCode/GetTestcaseChunkRequestHandler.h
+               core/SharedCode/IFLUFFIMessageHandler.cpp
+               core/SharedCode/IFLUFFIMessageHandler.h
+               core/SharedCode/IWorkerThreadStateBuilder.cpp
+               core/SharedCode/IWorkerThreadStateBuilder.h
+               core/SharedCode/KillInstanceRequestHandler.cpp
+               core/SharedCode/KillInstanceRequestHandler.h
+               core/SharedCode/NotImplementedHandler.cpp
+               core/SharedCode/NotImplementedHandler.h
+               core/SharedCode/stdafx.cpp
+               core/SharedCode/stdafx.h
+               core/SharedCode/targetver.h
+               core/SharedCode/Util.cpp
+               core/SharedCode/Util.h
+               core/SharedCode/WorkerThreadState.cpp
+               core/SharedCode/WorkerThreadState.h
+               core/SharedMemIPC/dllmain.cpp
+               core/SharedMemIPC/SharedMemIPC.cpp
+               core/SharedMemIPC/SharedMemIPC.h
+               core/SharedMemIPC/SharedMemMessage.cpp
+               core/SharedMemIPC/SharedMemMessage.h
+               core/SharedMemIPC/stdafx.cpp
+               core/SharedMemIPC/stdafx.h
+               core/SharedMemIPC/targetver.h
+               core/TestcaseEvaluator/BlockCoverageCache.cpp
+               core/TestcaseEvaluator/BlockCoverageCache.h
+               core/TestcaseEvaluator/CoverageEvaluator.cpp
+               core/TestcaseEvaluator/CoverageEvaluator.h
+               core/TestcaseEvaluator/CoveragePullerWorker.cpp
+               core/TestcaseEvaluator/CoveragePullerWorker.h
+               core/TestcaseEvaluator/FluffiEvaluator.cpp
+               core/TestcaseEvaluator/FluffiEvaluator.h
+               core/TestcaseEvaluator/PutTestResultRequestHandler.cpp
+               core/TestcaseEvaluator/PutTestResultRequestHandler.h
+               core/TestcaseEvaluator/stdafx.cpp
+               core/TestcaseEvaluator/stdafx.h
+               core/TestcaseEvaluator/targetver.h
+               core/TestcaseEvaluator/TEGetStatusRequestHandler.cpp
+               core/TestcaseEvaluator/TEGetStatusRequestHandler.h
+               core/TestcaseEvaluator/TEMainWorker.cpp
+               core/TestcaseEvaluator/TEMainWorker.h
+               core/TestcaseEvaluator/TestcaseEvaluator.cpp
+               core/TestcaseEvaluator/TestOutcomeDescriptor.cpp
+               core/TestcaseEvaluator/TestOutcomeDescriptor.h
+               core/TestcaseEvaluator/TETestResultManager.cpp
+               core/TestcaseEvaluator/TETestResultManager.h
+               core/TestcaseEvaluator/TEWorkerThreadState.h
+               core/TestcaseEvaluator/TEWorkerThreadStateBuilder.cpp
+               core/TestcaseEvaluator/TEWorkerThreadStateBuilder.h
+               core/TestcaseGenerator/AFLMutator.cpp
+               core/TestcaseGenerator/AFLMutator.h
+               core/TestcaseGenerator/CaRRoTMutator.cpp
+               core/TestcaseGenerator/CaRRoTMutator.h
+               core/TestcaseGenerator/ExternalMutator.cpp
+               core/TestcaseGenerator/ExternalMutator.h
+               core/TestcaseGenerator/FluffiMutator.cpp
+               core/TestcaseGenerator/FluffiMutator.h
+               core/TestcaseGenerator/GetTestcaseRequestHandler.cpp
+               core/TestcaseGenerator/GetTestcaseRequestHandler.h
+               core/TestcaseGenerator/HonggfuzzMutator.cpp
+               core/TestcaseGenerator/HonggfuzzMutator.h
+               core/TestcaseGenerator/OedipusMutator.cpp
+               core/TestcaseGenerator/OedipusMutator.h
+               core/TestcaseGenerator/QueueCleanerWorker.cpp
+               core/TestcaseGenerator/QueueCleanerWorker.h
+               core/TestcaseGenerator/QueueFillerWorker.cpp
+               core/TestcaseGenerator/QueueFillerWorker.h
+               core/TestcaseGenerator/RadamsaMutator.cpp
+               core/TestcaseGenerator/RadamsaMutator.h
+               core/TestcaseGenerator/stdafx.cpp
+               core/TestcaseGenerator/stdafx.h
+               core/TestcaseGenerator/targetver.h
+               core/TestcaseGenerator/TestcaseDescriptor.cpp
+               core/TestcaseGenerator/TestcaseDescriptor.h
+               core/TestcaseGenerator/TestcaseGenerator.cpp
+               core/TestcaseGenerator/TGGetStatusRequestHandler.cpp
+               core/TestcaseGenerator/TGGetStatusRequestHandler.h
+               core/TestcaseGenerator/TGTestcaseManager.cpp
+               core/TestcaseGenerator/TGTestcaseManager.h
+               core/TestcaseGenerator/TGWorkerThreadState.h
+               core/TestcaseGenerator/TGWorkerThreadStateBuilder.cpp
+               core/TestcaseGenerator/TGWorkerThreadStateBuilder.h
+               core/TestcaseRunner/CommPartnerManager.cpp
+               core/TestcaseRunner/CommPartnerManager.h
+               core/TestcaseRunner/FluffiTestExecutor.cpp
+               core/TestcaseRunner/FluffiTestExecutor.h
+               core/TestcaseRunner/GDBBreakpoint.cpp
+               core/TestcaseRunner/GDBBreakpoint.h
+               core/TestcaseRunner/GDBThreadCommunication.cpp
+               core/TestcaseRunner/GDBThreadCommunication.h
+               core/TestcaseRunner/Module.cpp
+               core/TestcaseRunner/Module.h
+               core/TestcaseRunner/SetTGsAndTEsRequestHandler.cpp
+               core/TestcaseRunner/SetTGsAndTEsRequestHandler.h
+               core/TestcaseRunner/stdafx.cpp
+               core/TestcaseRunner/stdafx.h
+               core/TestcaseRunner/targetver.h
+               core/TestcaseRunner/TestcaseRunner.cpp
+               core/TestcaseRunner/TestExecutorDynRio.cpp
+               core/TestcaseRunner/TestExecutorDynRio.h
+               core/TestcaseRunner/TestExecutorDynRioMulti.cpp
+               core/TestcaseRunner/TestExecutorDynRioMulti.h
+               core/TestcaseRunner/TestExecutorDynRioSingle.cpp
+               core/TestcaseRunner/TestExecutorDynRioSingle.h
+               core/TestcaseRunner/TestExecutorGDB.cpp
+               core/TestcaseRunner/TestExecutorGDB.h
+               core/TestcaseRunner/TestExecutorQemuUserSingle.cpp
+               core/TestcaseRunner/TestExecutorQemuUserSingle.h
+               core/TestcaseRunner/TRGetStatusRequestHandler.cpp
+               core/TestcaseRunner/TRGetStatusRequestHandler.h
+               core/TestcaseRunner/TRMainWorker.cpp
+               core/TestcaseRunner/TRMainWorker.h
+               core/TestcaseRunner/TRWorkerThreadState.h
+               core/TestcaseRunner/TRWorkerThreadStateBuilder.cpp
+               core/TestcaseRunner/TRWorkerThreadStateBuilder.h
+               core/dependencies/libprotoc/include/siemens/cpp/FLUFFI.pb.cc
+               core/dependencies/libprotoc/include/siemens/cpp/FLUFFI.pb.h)
+
+include_directories(core/dependencies/libprotoc/include/siemens/cpp)
