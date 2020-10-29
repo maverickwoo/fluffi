@@ -62,9 +62,8 @@ if [ "$PREPARE_ENV" = TRUE ] ; then
 	fi
 fi
 
-# Suggestion: use `id -nu` and `id -ng`
-USER=$(logname)
-GROUP=$(groups $USER | awk '{print $3}')
+USER=$(id -nu)
+GROUP=$(id -ng)
 USERID=$(id $USER -u)
 GROUPID=$(id $GROUP -g)
 
