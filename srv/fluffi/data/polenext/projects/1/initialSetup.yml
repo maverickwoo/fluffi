@@ -28,12 +28,12 @@
       changed_when: False
   roles:
     - initial-linux-prepareEnvironment
-    - initial-linux-swap
+    # - initial-linux-swap
     - initial-linux-ntp
     - initial-linux-ramdisk
     - initial-linux-ASLR
     - initial-linux-crashNotifiers
-    - initial-linux-cpuScaling
+    # - initial-linux-cpuScaling
     - initial-linux-installPackages
     - initial-linux-deployRestInstanceStarter
 
