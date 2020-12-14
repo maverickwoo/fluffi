@@ -22,10 +22,10 @@
 # Author(s): Thomas Riedmaier, Roman Bendt
 
 # Make sure only root can run our script
-if [ "$(id -u)" != "0" ]; then
-	echo "This script must be run as root. If it isn't we cannot create the zip archives in the docker-created folders (docker runs as root)" 1>&2
-   exit 1
-fi
+# if [ "$(id -u)" != "0" ]; then
+# 	echo "This script must be run as root. If it isn't we cannot create the zip archives in the docker-created folders (docker runs as root)" 1>&2
+#    exit 1
+# fi
 
 rm arm32.zip
 rm arm64.zip
