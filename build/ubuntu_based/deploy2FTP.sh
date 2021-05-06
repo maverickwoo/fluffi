@@ -37,7 +37,7 @@ if [ -d "../../core/Intel80386/bin" ]; then cd ../../core/Intel80386/bin; zip -x
 if [ -d "../../core/ARM/bin" ]; then cd ../../core/ARM/bin; zip -x "*.o" -x "*.make" -x "*.cmake" -r arm32.zip .; mv arm32.zip ../../../build/ubuntu_based/; cd ../../../build/ubuntu_based/; else touch arm32.zip; fi
 if [ -d "../../core/ARMaarch64/bin" ]; then cd ../../core/ARMaarch64/bin; zip -x "*.o" -x "*.make" -x "*.cmake" -r arm64.zip .; mv arm64.zip ../../../build/ubuntu_based/; cd ../../../build/ubuntu_based/; else touch arm64.zip; fi
 
-ftp -inv ftp.fluffi << EOF
+ftp -inv ${1:-ftp.fluffi} << EOF
 user anonymous anonymous
 passive
 cd /fluffi/linux/x64
